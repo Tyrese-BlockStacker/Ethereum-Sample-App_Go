@@ -1,0 +1,36 @@
+version: '3.5'
+
+networks:
+  myeth-network:
+    name: myeth-network
+    driver: bridge
+
+services:
+  root_ethdb:
+    build:
+      context: ./go-ethereum
+    image: myeth
+    container_name: root_ethdb
+    restart: always
+    volumes:
+      - ./root-node-config:/etc/config
+      - ./node-data/root-node:/home/data
+    ports:
+    - 30303:30303
+    entrypoint: ["geth", "--datadir", "/home/data", "init", "/etc/config/genesis.json"]
+    entrypoint: ["geth", "--datadir", "/home/data", "--networkid", "123", "--nodiscover"]
+    networks:
+      - myeth-network
+
+  node1_ethdb:
+    image: myeth
+    container_name: node1_ethdb
+    restart: always
+    volumes:
+      - ./node-data/node1:/home/data
+    entrypoint: ["geth", "--datadir", "/home/data", "init", "/etc/config/genesis.json"]
+    entrypoint: ["geth", "--datadir", "/home/data", "--networkid", "123", "--nodiscover"]
+    ports:
+    - 30304:30303
+    networks:
+      - myeth-network
