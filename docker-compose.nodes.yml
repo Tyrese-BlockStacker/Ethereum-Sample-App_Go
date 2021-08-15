@@ -1,9 +1,12 @@
-version: '3.5'
+version: "3.5"
 
 networks:
   myeth-network:
     name: myeth-network
     driver: bridge
+    ipam:
+      config:
+        - subnet: 172.28.0.0/16
 
 services:
   root_ethdb:
@@ -16,21 +19,51 @@ services:
       - ./root-node-config:/etc/config
       - ./node-data/root-node:/home/data
     ports:
-    - 30303:30303
-    entrypoint: ["geth", "--datadir", "/home/data", "init", "/etc/config/genesis.json"]
-    entrypoint: ["geth", "--datadir", "/home/data", "--networkid", "123", "--nodiscover"]
+      - 30303:30303
+    command: sh -c "geth --datadir /home/data --networkid 9079 --nodiscover"
     networks:
-      - myeth-network
+      myeth-network:
+        ipv4_address: 172.28.0.10
+    deploy:
+      resources:
+        limits:
+          cpus: "1"
+          memory: 2000M
 
   node1_ethdb:
     image: myeth
     container_name: node1_ethdb
     restart: always
     volumes:
+      - ./root-node-config:/etc/config
       - ./node-data/node1:/home/data
-    entrypoint: ["geth", "--datadir", "/home/data", "init", "/etc/config/genesis.json"]
-    entrypoint: ["geth", "--datadir", "/home/data", "--networkid", "123", "--nodiscover"]
+    command: sh -c "geth --datadir /home/data --networkid 9079 --nodiscover"
     ports:
-    - 30304:30303
+      - 30304:30303
     networks:
-      - myeth-network
+      myeth-network:
+        ipv4_address: 172.28.0.11
+    deploy:
+      resources:
+        limits:
+          cpus: "1"
+          memory: 2000M
+
+  # node2_ethdb:
+  #   image: myeth
+  #   container_name: node2_ethdb
+  #   restart: always
+  #   volumes:
+  #     - ./root-node-config:/etc/config
+  #     - ./node-data/node2:/home/data
+  #   command: sh -c "geth --datadir /home/data --networkid 9079 --nodiscover"
+  #   ports:
+  #     - 30305:30303
+  #   networks:
+  #     myeth-network:
+  #       ipv4_address: 172.28.0.12
+  #   deploy:
+  #     resources:
+  #       limits:
+  #         cpus: "1"
+  #         memory: 1000M
