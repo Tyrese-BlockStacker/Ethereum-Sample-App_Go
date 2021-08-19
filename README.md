@@ -248,7 +248,7 @@ Send 1 token to `0x5b8b5e6c4ba00c3779001aba1790ee977f8059b2`
 ```
 eth.sendTransaction({
 from: '0x132278bFB3eC1b066DE3fBe595Fd805AfAb55e27',
-to: '0x5b8b5e6c4ba00c3779001aba1790ee977f8059b2',
+to: '0xFc086224BDE9271557057Cc27F035e63485230Df',
 value: '1'
 })
 ```
@@ -262,7 +262,7 @@ Output
 Check transaction
 
 ```
-eth.getTransaction('0x8bd668add121145c7295f7f5e54e206125a988d3412bbe4411566a4accabdb0d')
+eth.getTransaction('0x3d34ecfe0eb39efa188ecc318b2c6d1f038716fb9b403d71e33fa420427ade1c')
 ```
 
 Check balance again
@@ -270,4 +270,5 @@ Check balance again
 ```
 eth.getBalance('0x5b8b5e6c4ba00c3779001aba1790ee977f8059b2')
 eth.getBalance('0x132278bFB3eC1b066DE3fBe595Fd805AfAb55e27')
+eth.getBalance('0xFc086224BDE9271557057Cc27F035e63485230Df')
 ```

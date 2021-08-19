@@ -37,9 +37,10 @@ services:
     volumes:
       - ./root-node-config:/etc/config
       - ./node-data/node1:/home/data
-    command: sh -c "geth --datadir /home/data --networkid 9079 --nodiscover"
+    command: sh -c "geth --datadir /home/data --networkid 9079 --nodiscover --rpc --rpcapi eth,net,web3,personal --rpcaddr "0.0.0.0" --rpcport 8545"
     ports:
       - 30304:30303
+      - 8545:8545
     networks:
       myeth-network:
         ipv4_address: 172.28.0.11
